@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Theme.AppCompat.DayNight.NoActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/login_bg"
+    tools:context="com.zhq.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:background="@mipmap/login_logo"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/login_et_style"
+            android:gravity="center_vertical|left"
+            android:hint="@string/log_company_hint"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/log_hint_color"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_user"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/login_et_style"
+            android:gravity="center_vertical|left"
+            android:hint="@string/log_user_hint"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/log_hint_color"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginEnd="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/login_et_style"
+            android:gravity="center_vertical|left"
+            android:hint="@string/log_password_hint"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/log_hint_color"
+            android:textSize="16sp"/>
+
+
+        <TextView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/login_btn_style"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/log"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="24sp"
+            android:textStyle=""/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

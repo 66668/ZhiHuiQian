@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">智汇签</string>
+    <string name="log_company_hint">请输入公司账号</string>
+    <string name="log_user_hint">请输入用户名</string>
+    <string name="log_password_hint">请输入密码</string>
+    <string name="log">登录</string>
+</resources>
