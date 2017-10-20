@@ -3,7 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="common_color">#2aa9ec</color>
     <!--登录相关-->
     <color name="log_hint_color">#b8e7ff</color>
     <color name="log_btn_color">#f0f2f2</color>
+    <color name="log_color">#2aa9ec</color>
 </resources>
