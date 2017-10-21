@@ -4,4 +4,10 @@
     <string name="log_user_hint">请输入用户名</string>
     <string name="log_password_hint">请输入密码</string>
     <string name="log">登录</string>
+
+    <string name="main_totle">您共有</string>
+    <string name="main_totle2">场会议</string>
+    <string name="detail_totle">总人数</string>
+    <string name="detail_done">已签到</string>
+    <string name="detail_todo">未签到</string>
 </resources>

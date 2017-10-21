@@ -1,34 +1,169 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.AppCompat.DayNight.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/login_bg"
-    tools:context="com.zhq.MainActivity">
+    android:orientation="vertical">
+
+    <!-- 顶部bar android:background="@mipmap/icon_minebg"-->
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:background="@mipmap/main_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:background="@mipmap/detail_back"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/setting"
+            android:gravity="center"
+            android:text="会议名称"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_title"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="5dp"
+            android:drawableStart="@mipmap/detail_location"
+            android:text="北京市海淀区财智国际大厦"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:layout_height="80dp"
+        android:layout_above="@+id/recyclerView"
+        android:layout_alignParentStart="true"
+        android:background="@mipmap/detail_bg"
+        android:orientation="horizontal"
+        android:weightSum="3">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:background="@mipmap/login_logo"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/login_et_style"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="@string/detail_totle"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="100人"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="@string/detail_done"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="100人"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/detail_line"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/detail_line"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="@string/detail_todo"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:text="100人"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
 
     </LinearLayout>
 
+    <!-- 三个功能块-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_toolbar">
 
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

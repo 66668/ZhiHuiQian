@@ -8,41 +8,84 @@
     <!-- 顶部bar android:background="@mipmap/icon_minebg"-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="172dp"
-        >
+        android:layout_height="225dp"
+        android:background="@mipmap/main_bg">
 
         <RelativeLayout
             android:id="@+id/setting"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
-            android:gravity="center_vertical">
+            android:background="@android:color/transparent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:gravity="center_vertical"
+                android:text="欢迎您，YueVision!"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="25dp"
-                android:contentDescription="@null"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/setting">
-
-            <ImageView
-                android:id="@+id/img_face"
-                android:layout_width="86dp"
-                android:layout_height="86dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:contentDescription="@null"/>
-
+                android:layout_marginEnd="15dp"
+                android:background="@mipmap/main_quit"/>
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_totle"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/setting"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.4"
+                android:gravity="end|right"
+                android:text="@string/main_totle"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.2"
+                android:drawableBottom="@mipmap/main_quit"
+                android:gravity="center"
+                android:text="133"
+                android:textColor="@android:color/white"
+                android:textSize="42sp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.4"
+                android:gravity="start|left"
+                android:text="@string/main_totle2"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/layout_totle"
+            android:gravity="center"
+            android:text="最近的一场是:   某某某会议"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
 
     </RelativeLayout>
 

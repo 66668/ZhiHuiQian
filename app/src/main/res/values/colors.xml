@@ -8,4 +8,7 @@
     <color name="log_hint_color">#b8e7ff</color>
     <color name="log_btn_color">#f0f2f2</color>
     <color name="log_color">#2aa9ec</color>
+    <color name="line_color">#d9d9d9</color>
+    <color name="white">#ffffff</color>
+    <color name="tv_3">#333333</color>
 </resources>
