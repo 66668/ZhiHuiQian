@@ -128,13 +128,22 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
 
         adapter = new MainListRecylerAdapter(this, listData);
         adapter.setOnLoadMoreListener(this, recyclerView);
+        //item监听
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                MainBean.ConferenceItemBean bean = (MainBean.ConferenceItemBean) adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("id", bean.getConferenceID());
+                startActivity(MeetingDetailActivity.class, bundle);
+            }
+        });
 
         if (listData != null) {
             if (listData.size() <= 0) {
                 ToastUtil.ToastShort(this, "暂时没有会议记录！");
                 adapter.loadMoreEnd();
-            }
-            if (listData.size() < 20 && listData.size() > 0) {
+            } else if (listData.size() < 20 && listData.size() > 0) {
                 //数据全部加载完毕，显示 没有更多数据
                 adapter.loadMoreEnd();
             } else {
@@ -143,8 +152,7 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
             }
         } else {
             ToastUtil.ToastShort(this, "暂时没有会议记录！");
-            //本次加载结束，再次加载仍可用
-            adapter.loadMoreComplete();
+            adapter.loadMoreEnd();
         }
         recyclerView.setAdapter(adapter);
         //
@@ -162,41 +170,41 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
             if (listData.size() <= 0) {
                 ToastUtil.ToastShort(this, "暂时没有会议记录！");
                 adapter.loadMoreEnd();
-            }
-            if (listData.size() < 20 && listData.size() > 0) {
+            } else if (listData.size() < 20 && listData.size() > 0) {
                 //数据全部加载完毕，显示 没有更多数据
                 adapter.loadMoreEnd();
             } else {
                 //本次加载结束，再次加载仍可用
                 adapter.loadMoreComplete();
+                adapter.setEnableLoadMore(true);//允许加载
             }
         } else {
             ToastUtil.ToastShort(this, "暂时没有会议记录！");
-            //本次加载结束，再次加载仍可用
-            adapter.loadMoreComplete();
+            adapter.loadMoreEnd();
         }
 
         getMinMaxTime();
     }
 
     private void initMoreShow() {
-        adapter.addData(listData);
+
 
         if (listData != null) {
             if (listData.size() <= 0) {
                 adapter.loadMoreEnd();
-            }
-            if (listData.size() < 20 && listData.size() > 0) {
+            } else if (listData.size() < 20 && listData.size() > 0) {
                 //数据全部加载完毕，显示 没有更多数据
                 adapter.loadMoreEnd();
             } else {
                 //本次加载结束，再次加载仍可用
                 adapter.loadMoreComplete();
+                adapter.setEnableLoadMore(true);//允许加载
             }
         } else {
             //本次加载结束，再次加载仍可用
-            adapter.loadMoreComplete();
+            adapter.loadMoreEnd();
         }
+        adapter.addData(listData);
         getMinMaxTime();
     }
 
@@ -286,14 +294,13 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
     public void onRefreshSuccess(String code, String msg, Object obj) {
         swipRefreshLayout.setRefreshing(false);
         if (code.contains("1")) {
-            bean = (MainBean) obj;
-            listData = bean.getObj();
+            listData = (List<MainBean.ConferenceItemBean>) obj;
             initRefreshShow();
-
+            MLog.e("onRefreshSuccess", code + msg);
         } else if (code.contains("0")) {
             listData = new ArrayList<>();
             initRefreshShow();
-
+            MLog.e("onRefreshSuccess", code + msg);
         } else {
             listData = new ArrayList<>();
             initRefreshShow();
@@ -307,11 +314,13 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
         if (code.contains("0")) {
             listData = new ArrayList<>();
             initRefreshShow();
+            MLog.e("onRefreshFailed1", code + msg + e.toString());
 
         } else {
             listData = new ArrayList<>();
             initRefreshShow();
             MLog.e(msg);
+            MLog.e("onRefreshFailed2", code + msg + e.toString());
         }
     }
 
@@ -321,22 +330,31 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
             bean = (MainBean) obj;
             listData = bean.getObj();
             initMoreShow();
+            MLog.e("onMoreSuccess1" + msg);
 
         } else if (code.contains("0")) {
             listData = new ArrayList<>();
             initMoreShow();
-            MLog.e(msg);
+            MLog.e("onMoreSuccess2" + msg);
         } else {
             listData = new ArrayList<>();
             initMoreShow();
-            MLog.e(msg);
+            MLog.e("onMoreSuccess3" + msg);
         }
 
     }
 
     @Override
     public void onMoreFailed(String code, String msg, Exception e) {
-        ToastUtil.ToastShort(this, msg);
+        if (code.contains("0")) {
+            listData = new ArrayList<>();
+            initMoreShow();
+            MLog.e("onMoreFailed" + msg);
+        } else {
+            listData = new ArrayList<>();
+            initMoreShow();
+            MLog.e("onMoreFailed2" + msg);
+        }
     }
 
 }

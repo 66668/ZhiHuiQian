@@ -6,7 +6,6 @@ import com.zhq.R;
 import com.zhq.base.adapterbase.BaseQuickAdapter;
 import com.zhq.base.adapterbase.BaseViewHolder;
 import com.zhq.bean.MainBean;
-import com.zhq.utils.MLog;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class MainListRecylerAdapter extends BaseQuickAdapter<MainBean.Conference
 
     @Override
     protected void convert(BaseViewHolder holder, MainBean.ConferenceItemBean bean) {
-        MLog.d(bean.getConferenceName());
 
         holder.setText(R.id.conferenceName, bean.getConferenceName())//用户名
                 .addOnClickListener(R.id.layout_item);//监听
