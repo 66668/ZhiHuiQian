@@ -65,7 +65,7 @@ public interface MyHttpService {
     Observable<CommonBean<ConferencePersonBean>> getConferenceData(
             @Field("iMaxTime") String iMaxTime
             , @Field("iMinTime") String iMinTime
-            , @Field("pageSize") String pageSize
+            , @Field("pageSize") int pageSize
             , @Field("ConferenceID") String ConferenceID);
 
     /**

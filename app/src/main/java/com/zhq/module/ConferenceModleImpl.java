@@ -50,9 +50,7 @@ public class ConferenceModleImpl {
                         MLog.d("关注-onNext");
 
                         //处理返回结果
-                        if (bean.getCode().contains("0")) {
-                            listener.onCareSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
-                        } else if (bean.getCode().contains("1")) {
+                        if (bean.getCode().contains("1")) {
                             listener.onCareSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
                             MLog.e("返回数据错误：", bean.getMessage());
@@ -92,16 +90,12 @@ public class ConferenceModleImpl {
                         MLog.d("关注-onNext");
 
                         //处理返回结果
-                        if (bean.getCode().contains("0")) {
+                        if (bean.getCode().contains("1")) {
 
                             listener.onCarelessSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
-                            if (bean.getCode().contains("0")) {
-                                listener.onCarelessSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
-                            } else {
-                                MLog.e("返回数据错误：", bean.getMessage());
-                                listener.onCarelessFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
-                            }
+                            MLog.e("返回数据错误：", bean.getMessage());
+                            listener.onCarelessFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
 
@@ -117,7 +111,7 @@ public class ConferenceModleImpl {
      *
      * @param listener
      */
-    public void mGetConferenceData(String maxTime, String minTime, String size, String ConferenceID, final OnConferenceListener listener) {
+    public void mGetConferenceData(String maxTime, String minTime, int size, String ConferenceID, final OnConferenceListener listener) {
         MLog.d("main：", "maxTime=" + maxTime, "minTime=" + minTime, "size=" + size);
 
         MyHttpService.Builder.getHttpServer().getConferenceData(maxTime, minTime, size, ConferenceID)
@@ -132,7 +126,7 @@ public class ConferenceModleImpl {
 
                     @Override
                     public void onError(Throwable e) {
-                        MLog.e("会议--关注失败异常onError:" + e.toString());
+                        MLog.e("会议--onError:" + e.toString());
                         listener.onListFailed("-1", "异常", (Exception) e);
                     }
 
@@ -141,17 +135,12 @@ public class ConferenceModleImpl {
                         MLog.d("会议-onNext");
 
                         //处理返回结果
-                        if (bean.getCode().contains("0")) {
+                        if (bean.getCode().contains("1")) {
 
                             listener.onListSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
-                            if (bean.getCode().contains("1")) {
-
-                                listener.onListSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
-                            } else {
-                                MLog.e("返回数据错误：", bean.getMessage());
-                                listener.onListFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
-                            }
+                            MLog.e("返回数据错误：", bean.getMessage());
+                            listener.onListFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
 
@@ -161,7 +150,7 @@ public class ConferenceModleImpl {
     /**
      * @param listener
      */
-    public void mMoreData(String maxTime, String minTime, String size, String ConferenceID, final OnConferenceListener listener) {
+    public void mMoreData(String maxTime, String minTime, int size, String ConferenceID, final OnConferenceListener listener) {
         MLog.d("main：", "maxTime=" + maxTime, "minTime=" + minTime, "size=" + size);
 
         MyHttpService.Builder.getHttpServer().getConferenceData(maxTime, minTime, size, ConferenceID)
@@ -185,17 +174,12 @@ public class ConferenceModleImpl {
                         MLog.d("会议more-onNext");
 
                         //处理返回结果
-                        if (bean.getCode().contains("0")) {
+                        if (bean.getCode().contains("1")) {
 
                             listener.onMoreSuccess(bean.getCode(), bean.getMessage(), bean.getResult().getObj());
                         } else {
-                            if (bean.getCode().contains("1")) {
-
-                                listener.onMoreSuccess(bean.getCode(), bean.getMessage(), bean.getResult().getObj());
-                            } else {
-                                MLog.e("返回数据错误：", bean.getMessage());
-                                listener.onMoreFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
-                            }
+                            MLog.e("返回数据错误：", bean.getMessage());
+                            listener.onMoreFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
 
@@ -205,7 +189,7 @@ public class ConferenceModleImpl {
     /**
      * @param listener
      */
-    public void mRefreshData(String maxTime, String minTime, String size, String ConferenceID, final OnConferenceListener listener) {
+    public void mRefreshData(String maxTime, String minTime, int size, String ConferenceID, final OnConferenceListener listener) {
         MLog.d("main：", "maxTime=" + maxTime, "minTime=" + minTime, "size=" + size);
 
         MyHttpService.Builder.getHttpServer().getConferenceData(maxTime, minTime, size, ConferenceID)
@@ -229,17 +213,11 @@ public class ConferenceModleImpl {
                         MLog.d("会议refresh-onNext");
 
                         //处理返回结果
-                        if (bean.getCode().contains("0")) {
-
+                        if (bean.getCode().contains("1")) {
                             listener.onRefreshSuccess(bean.getCode(), bean.getMessage(), bean.getResult().getObj());
                         } else {
-                            if (bean.getCode().contains("1")) {
-
-                                listener.onRefreshSuccess(bean.getCode(), bean.getMessage(), bean.getResult().getObj());
-                            } else {
-                                MLog.e("返回数据错误：", bean.getMessage());
-                                listener.onRefreshFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
-                            }
+                            MLog.e("返回数据错误：", bean.getMessage());
+                            listener.onRefreshFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
 

@@ -111,7 +111,6 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
 
-        swipRefreshLayout.setOnRefreshListener(this);
         //设置SwipeRefreshLayout样式
         swipRefreshLayout.setOnRefreshListener(this);
         //颜色变化
@@ -124,7 +123,6 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
 
     private void initShow() {
 
-        MLog.d(bean.getConferCount(), bean.getNewestConfer());
 
         adapter = new MainListRecylerAdapter(this, listData);
         adapter.setOnLoadMoreListener(this, recyclerView);
@@ -327,8 +325,7 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
     @Override
     public void onMoreSuccess(String code, String msg, Object obj) {
         if (code.contains("1")) {
-            bean = (MainBean) obj;
-            listData = bean.getObj();
+            listData = (List<MainBean.ConferenceItemBean>) obj;
             initMoreShow();
             MLog.e("onMoreSuccess1" + msg);
 

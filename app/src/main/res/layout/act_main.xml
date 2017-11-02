@@ -64,9 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.2"
-                android:drawableBottom="@mipmap/main_quit"
+                android:drawableBottom="@mipmap/bottom_line"
                 android:gravity="center"
-                android:text="133"
                 android:textColor="@android:color/white"
                 android:textSize="42sp"/>
 

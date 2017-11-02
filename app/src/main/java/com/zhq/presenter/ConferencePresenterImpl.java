@@ -3,7 +3,6 @@ package com.zhq.presenter;
 import android.content.Context;
 
 import com.zhq.inter_face.OnConferenceListener;
-import com.zhq.inter_face.OnMainListener;
 import com.zhq.module.ConferenceModleImpl;
 
 
@@ -11,25 +10,25 @@ import com.zhq.module.ConferenceModleImpl;
  */
 
 public class ConferencePresenterImpl implements OnConferenceListener {
-    OnMainListener view;
+    OnConferenceListener view;
     Context context;
     ConferenceModleImpl modle;
 
-    public ConferencePresenterImpl(Context context, OnMainListener view) {
+    public ConferencePresenterImpl(Context context, OnConferenceListener view) {
         this.view = view;
         this.context = context;
         modle = new ConferenceModleImpl();
     }
 
-    public void pGetData(String maxTime, String minTime, String size, String storeID) {
+    public void pGetData(String maxTime, String minTime, int size, String storeID) {
         modle.mGetConferenceData(maxTime, minTime, size, storeID, this);
     }
 
-    public void pMoreData(String maxTime, String minTime, String size, String storeID) {
+    public void pMoreData(String maxTime, String minTime, int size, String storeID) {
         modle.mMoreData(maxTime, minTime, size, storeID, this);
     }
 
-    public void pRefreshData(String maxTime, String minTime, String size, String storeID) {
+    public void pRefreshData(String maxTime, String minTime, int size, String storeID) {
         modle.mRefreshData(maxTime, minTime, size, storeID, this);
     }
 
@@ -77,22 +76,23 @@ public class ConferencePresenterImpl implements OnConferenceListener {
     //
     @Override
     public void onCareSuccess(String code, String msg, Object obj) {
-
+        view.onCareSuccess(code, msg, obj);
     }
 
     @Override
     public void onCareFailed(String code, String msg, Exception e) {
-
+        view.onCareFailed(code, msg, e);
     }
 
     //
     @Override
     public void onCarelessSuccess(String code, String msg, Object obj) {
-
+        view.onCarelessSuccess(code, msg, obj);
     }
 
     @Override
     public void onCarelessFailed(String code, String msg, Exception e) {
+        view.onCarelessFailed(code, msg, e);
 
     }
 }
