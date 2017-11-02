@@ -14,12 +14,14 @@
         android:background="@mipmap/item_flag"/>
 
     <TextView
+        android:id="@+id/conferenceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/flag"
-        android:text="某某某会议"/>
+        android:text="某某某会议"
+        android:textColor="@android:color/black"/>
 
     <ImageView
         android:layout_width="wrap_content"

@@ -140,7 +140,12 @@ public class HttpUtils {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.client(getOkhttp3Client());//设置okhttp3（重点），不设置走默认的
         builder.baseUrl(apiUrl);//设置远程地址
+
+        //官方的json解析，要求格式必须规范才不会异常，但后台的不一定规范，这就要求自定义一个解析器避免这个情况
         builder.addConverterFactory(GsonConverterFactory.create());
+        //        builder.addConverterFactory(JsonResultConvertFactory.create());//自定义的json解析器
+
+
         builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create()); //Rx
         return builder;
     }
@@ -276,12 +281,12 @@ public class HttpUtils {
         try {
             //具体配置，可用链式结构
             OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
-//            okBuilder.cache(cache);//自定义缓存路径
+            //            okBuilder.cache(cache);//自定义缓存路径
             okBuilder.readTimeout(20, TimeUnit.SECONDS);
             okBuilder.connectTimeout(10, TimeUnit.SECONDS);
             okBuilder.writeTimeout(20, TimeUnit.SECONDS);
-            okBuilder.addInterceptor(new CacheInterceptor());//添加缓存拦截器
-            okBuilder.addNetworkInterceptor(new CacheInterceptor());//添加缓存拦截器
+//            okBuilder.addInterceptor(new CacheInterceptor());//添加缓存拦截器
+//            okBuilder.addNetworkInterceptor(new CacheInterceptor());//添加缓存拦截器
             okBuilder.addInterceptor(getInterceptor());//设置拦截器,打印
             okBuilder.hostnameVerifier(new HostnameVerifier() {
                 @Override

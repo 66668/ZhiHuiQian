@@ -10,4 +10,8 @@
     <string name="detail_totle">总人数</string>
     <string name="detail_done">已签到</string>
     <string name="detail_todo">未签到</string>
+    <!--RecyclerViewAdapterHelper源码 -->
+    <string name="loading">正在加载中...</string>
+    <string name="load_failed">加载失败，请点我重试</string>
+    <string name="load_end">没有更多数据</string>
 </resources>

@@ -25,7 +25,7 @@ public class ToastUtil {
 //    public static void SnackbarShow(@NonNull View view, String content) {
 //        Snackbar.make(view, "加载数据失败！", Snackbar.LENGTH_SHORT).show();//底部提示
 //    }
-//
+
 //    // 自定义toast
 //    public static void toastInMiddle(Context context, String str) {
 //        LayoutInflater inflater = LayoutInflater.from(MyApplication.getInstance());

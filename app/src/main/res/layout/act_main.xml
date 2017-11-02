@@ -20,6 +20,7 @@
             android:background="@android:color/transparent">
 
             <TextView
+                android:id="@+id/tv_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -58,6 +59,7 @@
                 android:textSize="30sp"/>
 
             <TextView
+                android:id="@+id/tv_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -80,6 +82,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_conferenceName"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_below="@+id/layout_totle"
@@ -91,9 +94,16 @@
     </RelativeLayout>
 
     <!-- 三个功能块-->
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

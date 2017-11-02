@@ -2,23 +2,73 @@ package com.zhq;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
+import com.zhq.adapter.MainListRecylerAdapter;
 import com.zhq.base.BaseActivity;
+import com.zhq.base.Constants;
+import com.zhq.base.adapterbase.BaseQuickAdapter;
+import com.zhq.bean.MainBean;
+import com.zhq.inter_face.OnMainListener;
+import com.zhq.presenter.MainPresenterImpl;
+import com.zhq.utils.MLog;
+import com.zhq.utils.SPUtil;
+import com.zhq.utils.ToastUtil;
 
-public class MainActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends BaseActivity implements OnMainListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+    @BindView(R.id.tv_welcome)
+    TextView tv_welcome;
+
+    @BindView(R.id.tv_number)
+    TextView tv_number;
+
+    @BindView(R.id.tv_conferenceName)
+    TextView tv_conferenceName;
+
+    @BindView(R.id.swipRefreshLayout)
+    SwipeRefreshLayout swipRefreshLayout;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    private MainPresenterImpl presenter;
+    private LinearLayoutManager manager;
+    private MainBean bean;
+    private List<MainBean.ConferenceItemBean> listData;
+    private MainListRecylerAdapter adapter;
+    private String storeID;
+    private String storeUserID;
+    private String minTime = "";
+    private String maxTime = "";
+    private int size = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
+        ButterKnife.bind(this);
+        initMyView();
+        loadData();
     }
+
     /**
      * 设置透明状态栏
      * //flag的详细用法见Readme讲解
      *
      * @param hasFocus
      */
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -41,6 +91,252 @@ public class MainActivity extends BaseActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
+    }
+
+    /**
+     * ======================================================================================================
+     * ==================================================显示====================================================
+     * ======================================================================================================
+     */
+    private void initMyView() {
+
+        presenter = new MainPresenterImpl(this, this);
+        minTime = "";
+        maxTime = "";
+        storeID = SPUtil.getString(Constants.SOTOREID, "");
+        //显示登录人
+        tv_welcome.setText("欢迎您， " + SPUtil.getUserName());
+        //
+        manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+
+        swipRefreshLayout.setOnRefreshListener(this);
+        //设置SwipeRefreshLayout样式
+        swipRefreshLayout.setOnRefreshListener(this);
+        //颜色变化
+        swipRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(this, R.color.log_hint_color)
+                , ContextCompat.getColor(this, R.color.log_color)
+                , ContextCompat.getColor(this, R.color.log_hint_color)
+                , ContextCompat.getColor(this, R.color.log_color));
+    }
+
+    private void initShow() {
+
+        MLog.d(bean.getConferCount(), bean.getNewestConfer());
+
+        adapter = new MainListRecylerAdapter(this, listData);
+        adapter.setOnLoadMoreListener(this, recyclerView);
+
+        if (listData != null) {
+            if (listData.size() <= 0) {
+                ToastUtil.ToastShort(this, "暂时没有会议记录！");
+                adapter.loadMoreEnd();
+            }
+            if (listData.size() < 20 && listData.size() > 0) {
+                //数据全部加载完毕，显示 没有更多数据
+                adapter.loadMoreEnd();
+            } else {
+                //本次加载结束，再次加载仍可用
+                adapter.loadMoreComplete();
+            }
+        } else {
+            ToastUtil.ToastShort(this, "暂时没有会议记录！");
+            //本次加载结束，再次加载仍可用
+            adapter.loadMoreComplete();
+        }
+        recyclerView.setAdapter(adapter);
+        //
+        tv_number.setText(bean.getConferCount() + "");
+        tv_conferenceName.setText("最近的一场是:   " + bean.getNewestConfer());
+        //
+        getMinMaxTime();
+
+
+    }
+
+    private void initRefreshShow() {
+        adapter.setNewData(listData);
+        if (listData != null) {
+            if (listData.size() <= 0) {
+                ToastUtil.ToastShort(this, "暂时没有会议记录！");
+                adapter.loadMoreEnd();
+            }
+            if (listData.size() < 20 && listData.size() > 0) {
+                //数据全部加载完毕，显示 没有更多数据
+                adapter.loadMoreEnd();
+            } else {
+                //本次加载结束，再次加载仍可用
+                adapter.loadMoreComplete();
+            }
+        } else {
+            ToastUtil.ToastShort(this, "暂时没有会议记录！");
+            //本次加载结束，再次加载仍可用
+            adapter.loadMoreComplete();
+        }
+
+        getMinMaxTime();
+    }
+
+    private void initMoreShow() {
+        adapter.addData(listData);
+
+        if (listData != null) {
+            if (listData.size() <= 0) {
+                adapter.loadMoreEnd();
+            }
+            if (listData.size() < 20 && listData.size() > 0) {
+                //数据全部加载完毕，显示 没有更多数据
+                adapter.loadMoreEnd();
+            } else {
+                //本次加载结束，再次加载仍可用
+                adapter.loadMoreComplete();
+            }
+        } else {
+            //本次加载结束，再次加载仍可用
+            adapter.loadMoreComplete();
+        }
+        getMinMaxTime();
+    }
+
+    /**
+     * ======================================================================================================
+     * ==================================================私有方法====================================================
+     * ======================================================================================================
+     */
+    private void getMinMaxTime() {
+        if (listData.size() <= 0) {
+            return;
+        } else {
+            int size = listData.size();
+            minTime = listData.get(size - 1).getCreateTime();
+            maxTime = listData.get(0).getCreateTime();
+
+            if (minTime == null) {
+                minTime = "";
+            }
+
+            if (maxTime == null) {
+                maxTime = "";
+            }
+        }
+
+    }
+
+    /**
+     * ======================================================================================================
+     * ==================================================接口数据====================================================
+     * ======================================================================================================
+     */
+    @Override
+    public void onRefresh() {
+        minTime = "";
+        maxTime = "";
+        refreshData();
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        moreData();
+    }
+
+    private void loadData() {
+        loadingDialog.show();
+        presenter.pGetData("", "", size, storeID);
+
+    }
+
+    private void moreData() {
+        presenter.pMoreData("", minTime, size, storeID);
+
+    }
+
+    private void refreshData() {
+        swipRefreshLayout.setRefreshing(true);
+        presenter.pRefreshData("", "", size, storeID);
+
+    }
+
+    /**
+     * ======================================================================================================
+     * ==================================================接口回调====================================================
+     * ======================================================================================================
+     */
+    @Override
+    public void onListSuccess(String code, String msg, Object obj) {
+        loadingDialog.dismiss();
+        if (code.contains("1")) {
+            bean = (MainBean) obj;
+            listData = bean.getObj();
+            initShow();
+        } else {
+            ToastUtil.ToastShort(this, msg);
+        }
+
+    }
+
+    @Override
+    public void onListFailed(String code, String msg, Exception e) {
+        loadingDialog.dismiss();
+        ToastUtil.ToastShort(this, msg);
+    }
+
+    @Override
+    public void onRefreshSuccess(String code, String msg, Object obj) {
+        swipRefreshLayout.setRefreshing(false);
+        if (code.contains("1")) {
+            bean = (MainBean) obj;
+            listData = bean.getObj();
+            initRefreshShow();
+
+        } else if (code.contains("0")) {
+            listData = new ArrayList<>();
+            initRefreshShow();
+
+        } else {
+            listData = new ArrayList<>();
+            initRefreshShow();
+            MLog.e(msg);
+        }
+    }
+
+    @Override
+    public void onRefreshFailed(String code, String msg, Exception e) {
+        swipRefreshLayout.setRefreshing(false);
+        if (code.contains("0")) {
+            listData = new ArrayList<>();
+            initRefreshShow();
+
+        } else {
+            listData = new ArrayList<>();
+            initRefreshShow();
+            MLog.e(msg);
+        }
+    }
+
+    @Override
+    public void onMoreSuccess(String code, String msg, Object obj) {
+        if (code.contains("1")) {
+            bean = (MainBean) obj;
+            listData = bean.getObj();
+            initMoreShow();
+
+        } else if (code.contains("0")) {
+            listData = new ArrayList<>();
+            initMoreShow();
+            MLog.e(msg);
+        } else {
+            listData = new ArrayList<>();
+            initMoreShow();
+            MLog.e(msg);
+        }
+
+    }
+
+    @Override
+    public void onMoreFailed(String code, String msg, Exception e) {
+        ToastUtil.ToastShort(this, msg);
     }
 
 }

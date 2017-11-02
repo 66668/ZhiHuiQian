@@ -7,13 +7,12 @@ import android.util.Log;
 
 import com.zhq.http.HttpUtils;
 import com.zhq.utils.MLog;
-import com.zhq.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sjy on 2017/4/18.
+ *
  */
 
 public class MyApplication extends Application {
@@ -43,7 +42,7 @@ public class MyApplication extends Application {
 
     //是否登录
     public boolean isLogin(Context context) {
-        return SPUtil.isLogin();
+        return isLogin;
     }
 
     public void setLogin(boolean login) {

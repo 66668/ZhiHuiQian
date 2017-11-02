@@ -23,6 +23,7 @@ public class SPUtil {
     private static final String USER_PS = "password";//密码
     private static final String USER_LOCATION = "location";//城市定位
     private static final String USER_IMG = "userimage";//图片
+    private static final String USER_CO = "userco";//公司账号
     private static final String TOKEN_TIME = "token_time";//tokentime
     private static final String USER_TOKEN = "user_token";//token
     private static final String NEWS_TEXTSIZE = "news_textsize";//资讯详情 正文字体大小
@@ -53,7 +54,7 @@ public class SPUtil {
         return sharedPreference.getBoolean(IS_LOGIN, false);
     }
 
-    //是否登录
+    //
     public static void setUserName(String name) {
         SharedPreferences.Editor editor = getSharedPreference(CONFIG).edit();
         editor.putString(USER_NAME, name).apply();
@@ -65,14 +66,14 @@ public class SPUtil {
     }
 
     //用户图片
-    public static void setUserImage(String img) {
+    public static void setUserCo(String img) {
         SharedPreferences.Editor editor = getSharedPreference(CONFIG).edit();
-        editor.putString(USER_IMG, img).apply();
+        editor.putString(USER_CO, img).apply();
     }
 
-    public static String getUserImage() {
+    public static String getUserCo() {
         SharedPreferences sharedPreference = getSharedPreference(CONFIG);
-        return sharedPreference.getString(USER_IMG, "");
+        return sharedPreference.getString(USER_CO, "");
 
     }
 
