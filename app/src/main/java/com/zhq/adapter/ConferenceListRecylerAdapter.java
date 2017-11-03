@@ -41,7 +41,6 @@ public class ConferenceListRecylerAdapter extends BaseQuickAdapter<ConferencePer
                 .load(imgPath)
                 .error(ContextCompat.getDrawable(mContext, R.mipmap.detail_default_pic))
                 .transform(new GlideCircleTransform(mContext))//自定义圆形图片
-                .centerCrop()
                 .into(img);
         //签到
         TextView tv_time = holder.getView(R.id.person_time);

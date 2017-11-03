@@ -11,6 +11,10 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 /**
  * 自定义Glide圆形图片
+ * glide使用：
+ *  .transform(new GlideCircleTransform(mContext))//自定义圆形图片
+ *  注意：添加.centerCrop()后图片无法再变成圆形，所以不可以和上边一起用
+ *
  */
 
 public class GlideCircleTransform extends BitmapTransformation {
