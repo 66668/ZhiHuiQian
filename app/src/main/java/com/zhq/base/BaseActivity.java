@@ -35,7 +35,8 @@ public class BaseActivity extends AppCompatActivity {
         loadingDialog.setCanceledOnTouchOutside(false);//弹窗之外触摸无效
         loadingDialog.setCancelable(true);//true:可以按返回键back取消
 
-        //
+        //将act保存,退出使用
+        MyApplication.getInstance().addActOfAll(this);
     }
 
     /**
@@ -122,5 +123,12 @@ public class BaseActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //退出程序的广播
+        //		unRegisterExitReceiver();
+        MyApplication.getInstance().removeOneActOfAll(this);
     }
 }

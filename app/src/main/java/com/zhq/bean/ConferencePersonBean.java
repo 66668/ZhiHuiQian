@@ -64,7 +64,7 @@ public class ConferencePersonBean implements Serializable {
         private String EmployeeID;
         private String EmployeeName;
         private String SignTime;
-        private int IsSign;
+        private String IsSign;
         private String ImagePathYun;
         private String CreateTime;
         private int IsCare;
@@ -109,11 +109,11 @@ public class ConferencePersonBean implements Serializable {
             SignTime = signTime;
         }
 
-        public int getIsSign() {
+        public String getIsSign() {
             return IsSign;
         }
 
-        public void setIsSign(int isSign) {
+        public void setIsSign(String isSign) {
             IsSign = isSign;
         }
 

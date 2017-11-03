@@ -46,7 +46,7 @@ public class ConferenceListRecylerAdapter extends BaseQuickAdapter<ConferencePer
         //签到
         TextView tv_time = holder.getView(R.id.person_time);
 
-        if (bean.getIsSign() == 0) {
+        if (bean.getIsSign().contains("0")) {
             tv_time.setText("未签到");
         } else {
             tv_time.setText("签到时间：" + bean.getCreateTime());

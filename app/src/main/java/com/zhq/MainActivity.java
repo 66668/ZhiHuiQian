@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.zhq.adapter.MainListRecylerAdapter;
 import com.zhq.base.BaseActivity;
 import com.zhq.base.Constants;
+import com.zhq.base.MyApplication;
 import com.zhq.base.adapterbase.BaseQuickAdapter;
 import com.zhq.bean.MainBean;
 import com.zhq.inter_face.OnMainListener;
@@ -25,8 +26,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+/**
+ * //遍历关闭act界面
+ * MyApplication.getInstance().exit();
+ */
 public class MainActivity extends BaseActivity implements OnMainListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+
     @BindView(R.id.tv_welcome)
     TextView tv_welcome;
 
@@ -91,6 +98,17 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
+    }
+
+    @OnClick(R.id.exit)
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.exit:
+                //遍历关闭act界面
+                MyApplication.getInstance().exit();
+                break;
+        }
+
     }
 
     /**

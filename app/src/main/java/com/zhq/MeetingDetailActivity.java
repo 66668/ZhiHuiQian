@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zhq.adapter.ConferenceListRecylerAdapter;
@@ -34,7 +34,7 @@ import butterknife.OnClick;
 public class MeetingDetailActivity extends BaseActivity implements OnConferenceListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.tv_back)
-    ImageView tv_back;
+    RelativeLayout tv_back;
 
     @BindView(R.id.detail_title)
     TextView detail_title;
@@ -121,6 +121,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         conferenceName = getIntent().getExtras().getString("title", "");
         detail_title.setText(conferenceName);
     }
+
     private void initShow() {
         adapter = new ConferenceListRecylerAdapter(this, listData);
         adapter.setOnLoadMoreListener(this, recyclerView);
@@ -216,7 +217,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     private void setEmptyRecyclerView() {
         listData = new ArrayList<>();
         adapter = new ConferenceListRecylerAdapter(this, listData);
-//        adapter.setEmptyView();
+        //        adapter.setEmptyView();
 
     }
 
@@ -380,25 +381,25 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     @Override
     public void onCareSuccess(String code, String msg, Object obj) {
         loadingDialog.dismiss();
-        ToastUtil.ToastShort(this,msg);
+        ToastUtil.ToastShort(this, msg);
     }
 
     @Override
     public void onCareFailed(String code, String msg, Exception e) {
         loadingDialog.dismiss();
-        ToastUtil.ToastShort(this,msg);
+        ToastUtil.ToastShort(this, msg);
     }
 
     @Override
     public void onCarelessSuccess(String code, String msg, Object obj) {
         loadingDialog.dismiss();
-        ToastUtil.ToastShort(this,msg);
+        ToastUtil.ToastShort(this, msg);
     }
 
     @Override
     public void onCarelessFailed(String code, String msg, Exception e) {
         loadingDialog.dismiss();
-        ToastUtil.ToastShort(this,msg);
+        ToastUtil.ToastShort(this, msg);
     }
 
 
