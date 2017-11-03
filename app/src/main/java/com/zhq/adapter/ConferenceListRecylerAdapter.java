@@ -2,6 +2,7 @@ package com.zhq.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,11 +53,13 @@ public class ConferenceListRecylerAdapter extends BaseQuickAdapter<ConferencePer
         }
 
         //关注
-        ImageView img_care = holder.getView(R.id.img_care);
+        CheckBox img_care = holder.getView(R.id.img_care);
         if (bean.getIsCare() == 0) {
-            ContextCompat.getDrawable(mContext, R.mipmap.detail_unchoose);
+            img_care.setChecked(false);
+//            ContextCompat.getDrawable(mContext, R.mipmap.detail_unchoose);
         } else {
-            ContextCompat.getDrawable(mContext, R.mipmap.detail_choose);
+            img_care.setChecked(true);
+//            ContextCompat.getDrawable(mContext, R.mipmap.detail_choose);
         }
 
         holder.setText(R.id.person_name, bean.getEmployeeName())//用户名

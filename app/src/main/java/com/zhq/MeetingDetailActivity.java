@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,7 +51,6 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     @BindView(R.id.tv_unsigned)
     TextView tv_unsigned;
 
-
     @BindView(R.id.swipRefreshLayout)
     SwipeRefreshLayout swipRefreshLayout;
 
@@ -64,6 +64,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     private ConferencePresenterImpl presenter;
     private int size = 20;
     private String conferenceID;
+    private String conferenceName;
     private String minTime = "";
     private String maxTime = "";
     private LinearLayoutManager manager;
@@ -97,8 +98,9 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     }
 
     private void initMyView() {
+        getIntentData();
 
-        conferenceID = getIntent().getExtras().getString("id", "");
+
         presenter = new ConferencePresenterImpl(this, this);
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -114,6 +116,11 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
                 , ContextCompat.getColor(this, R.color.log_color));
     }
 
+    private void getIntentData() {
+        conferenceID = getIntent().getExtras().getString("id", "");
+        conferenceName = getIntent().getExtras().getString("title", "");
+        detail_title.setText(conferenceName);
+    }
     private void initShow() {
         adapter = new ConferenceListRecylerAdapter(this, listData);
         adapter.setOnLoadMoreListener(this, recyclerView);
@@ -121,6 +128,16 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ConferencePersonBean.PersonBean bean = (ConferencePersonBean.PersonBean) adapter.getItem(position);
+                String employeeID = bean.getEmployeeID();
+                CheckBox box = (CheckBox) view;
+                if (box.isChecked() == true) {
+                    carePersonPost(employeeID);
+                    box.setChecked(true);
+                } else {
+                    CarelessPost(employeeID);
+                    box.setChecked(false);
+                }
 
             }
         });
@@ -193,6 +210,16 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         getMinMaxTime();
     }
 
+    /**
+     * 首次加载空数据，显示空白view
+     */
+    private void setEmptyRecyclerView() {
+        listData = new ArrayList<>();
+        adapter = new ConferenceListRecylerAdapter(this, listData);
+//        adapter.setEmptyView();
+
+    }
+
     private void getMinMaxTime() {
         if (listData.size() <= 0) {
             return;
@@ -245,6 +272,17 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
 
     }
 
+    private void carePersonPost(String employeeID) {
+        loadingDialog.show();
+        presenter.pPostCare(employeeID);
+    }
+
+    private void CarelessPost(String employeeID) {
+        loadingDialog.show();
+        presenter.pPostCareless(employeeID);
+
+    }
+
 
     /**
      * ======================================================================================================
@@ -268,6 +306,9 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     public void onListFailed(String code, String msg, Exception e) {
         loadingDialog.dismiss();
         ToastUtil.ToastShort(this, msg);
+        if (code.contains("0")) {
+            setEmptyRecyclerView();
+        }
     }
 
     @Override
@@ -338,22 +379,26 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
 
     @Override
     public void onCareSuccess(String code, String msg, Object obj) {
-
+        loadingDialog.dismiss();
+        ToastUtil.ToastShort(this,msg);
     }
 
     @Override
     public void onCareFailed(String code, String msg, Exception e) {
-
+        loadingDialog.dismiss();
+        ToastUtil.ToastShort(this,msg);
     }
 
     @Override
     public void onCarelessSuccess(String code, String msg, Object obj) {
-
+        loadingDialog.dismiss();
+        ToastUtil.ToastShort(this,msg);
     }
 
     @Override
     public void onCarelessFailed(String code, String msg, Exception e) {
-
+        loadingDialog.dismiss();
+        ToastUtil.ToastShort(this,msg);
     }
 
 

@@ -126,13 +126,14 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
 
         adapter = new MainListRecylerAdapter(this, listData);
         adapter.setOnLoadMoreListener(this, recyclerView);
-        //item监听
+        //item监听 详情会议跳转
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 MainBean.ConferenceItemBean bean = (MainBean.ConferenceItemBean) adapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("id", bean.getConferenceID());
+                bundle.putString("title", bean.getConferenceName());
                 startActivity(MeetingDetailActivity.class, bundle);
             }
         });

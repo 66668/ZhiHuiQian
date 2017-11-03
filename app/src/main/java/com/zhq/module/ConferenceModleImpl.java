@@ -41,7 +41,7 @@ public class ConferenceModleImpl {
 
                     @Override
                     public void onError(Throwable e) {
-                        MLog.e("关注--关注失败异常onError:" + e.toString());
+                        MLog.e("关注--onError:" + e.toString());
                         listener.onCareFailed("-1", "异常", (Exception) e);
                     }
 
@@ -53,7 +53,7 @@ public class ConferenceModleImpl {
                         if (bean.getCode().contains("1")) {
                             listener.onCareSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
-                            MLog.e("返回数据错误：", bean.getMessage());
+                            MLog.e(bean.getCode(), bean.getMessage());
                             listener.onCareFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
@@ -94,7 +94,7 @@ public class ConferenceModleImpl {
 
                             listener.onCarelessSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
-                            MLog.e("返回数据错误：", bean.getMessage());
+                            MLog.e(bean.getCode(), bean.getMessage());
                             listener.onCarelessFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }

@@ -39,7 +39,6 @@
             android:layout_height="50dp"
             android:layout_below="@+id/setting"
             android:gravity="center"
-            android:text="会议名称"
             android:textColor="@color/white"
             android:textSize="20sp"/>
 
@@ -51,7 +50,6 @@
             android:layout_centerHorizontal="true"
             android:drawablePadding="5dp"
             android:drawableStart="@mipmap/detail_location"
-            android:text="北京市海淀区财智国际大厦"
             android:textColor="@color/white"
             android:textSize="12sp"/>
 
@@ -84,9 +82,9 @@
                 android:id="@+id/totolNum"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:text="--"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:text="100人"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
@@ -113,7 +111,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:text="100人"
+                android:text="--"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
@@ -157,7 +155,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:gravity="center"
-                android:text="100人"
+                android:text="--"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
         </RelativeLayout>

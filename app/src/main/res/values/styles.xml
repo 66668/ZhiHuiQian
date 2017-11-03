@@ -28,5 +28,4 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:gravity">center</item>
     </style>
-
 </resources>
