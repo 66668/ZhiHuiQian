@@ -1,11 +1,18 @@
 package com.zhq;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,16 +24,20 @@ import com.zhq.base.adapterbase.BaseQuickAdapter;
 import com.zhq.bean.MainBean;
 import com.zhq.inter_face.OnMainListener;
 import com.zhq.presenter.MainPresenterImpl;
+import com.zhq.utils.JpushUtil;
 import com.zhq.utils.MLog;
 import com.zhq.utils.SPUtil;
 import com.zhq.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * //遍历关闭act界面
@@ -60,11 +71,19 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
     private String maxTime = "";
     private int size = 20;
 
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
         ButterKnife.bind(this);
+        initJpush();
         initMyView();
         loadData();
     }
@@ -111,6 +130,92 @@ public class MainActivity extends BaseActivity implements OnMainListener, SwipeR
 
     }
 
+    //极光配置
+    private void initJpush() {
+
+        JPushInterface.init(getApplicationContext());
+
+        registerMessageReceiver();  // used for receive msg
+        JPushInterface.resumePush(getApplicationContext());
+        //推送设置别名
+        setAlias(SPUtil.getUserName());
+    }
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(KEY_MESSAGE);
+                String extras = intent.getStringExtra(KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(KEY_MESSAGE + " : " + messge+ "\n");
+                if (!JpushUtil.isEmpty(extras)) {
+                    showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                }
+                MLog.d("JPush", "rid=" + JPushInterface.getRegistrationID(MainActivity.this) + "\n--showMsg" + showMsg);
+            }
+        }
+    }
+    /**
+     * jpush 绑定别名
+     */
+    private void setAlias(String workid) {
+        if (TextUtils.isEmpty(workid)) {
+            ToastUtil.toastLong(this,"别名为空");
+            return;
+        }
+        if (!JpushUtil.isValidTagAndAlias(workid)) {
+            ToastUtil.toastLong(this,"别名无效");
+            return;
+        }
+
+        // 调用 Handler 来异步设置别名
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, workid));
+    }
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            switch (code) {
+                case 0:
+                    MLog.d("JPush", "Set tag and alias success极光推送别名设置成功");
+                    break;
+                case 6002:
+                    MLog.d("JPush", "极光推送别名设置失败，Code = 6002");
+                    break;
+                default:
+                    MLog.d("JPush", "极光推送设置失败，Code = " + code);
+                    break;
+            }
+        }
+    };
+
+    private static final int MSG_SET_ALIAS = 1001;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    Log.d("Jpush", "Set alias in handler.");
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAliasAndTags(getApplicationContext(),
+                            (String) msg.obj,
+                            null,
+                            mAliasCallback);
+                    break;
+                default:
+                    Log.i("Jpush", "Unhandled msg - " + msg.what);
+            }
+        }
+    };
     /**
      * ======================================================================================================
      * ==================================================显示====================================================

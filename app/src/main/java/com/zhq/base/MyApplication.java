@@ -11,6 +11,8 @@ import com.zhq.utils.MLog;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  *
  */
@@ -34,10 +36,10 @@ public class MyApplication extends Application {
         MLog.init(true, "SJY");
         //初始化网络
         HttpUtils.getInstance().init(this, MLog.DEBUG);
-        //
-        //        // 极光推送 SDK初始化
-        //        JPushInterface.setDebugMode(true);//设置打印日志，测试用
-        //        JPushInterface.init(this);
+
+        // 极光推送 SDK初始化
+        JPushInterface.setDebugMode(true);//设置打印日志，测试用
+        JPushInterface.init(this);
     }
 
     //是否登录
