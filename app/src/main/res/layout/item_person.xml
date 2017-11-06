@@ -31,15 +31,21 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/person_img"
-        android:text="签到时间：2017-10-22 01:39:22"/>
+        android:textColor="@color/tv_4"/>
 
     <CheckBox
-        android:button="@null"
         android:id="@+id/img_care"
-        android:background="@drawable/checkbox_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/checkbox_style"
+        android:button="@null"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line"/>
 </RelativeLayout>

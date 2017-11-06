@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     private String minTime = "";
     private String maxTime = "";
     private LinearLayoutManager manager;
+    private View notDataView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         setContentView(R.layout.act_detail);
         ButterKnife.bind(this);
         initMyView();
+        initEmptyView();
         if (!conferenceID.isEmpty()) {
             loadData();
         } else {
@@ -97,9 +100,21 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         }
     }
 
+    /***
+     * 创建 空布局
+     */
+    private void initEmptyView() {
+        notDataView = getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) recyclerView.getParent(), false);
+        notDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.ToastShort(MeetingDetailActivity.this, "点我没用，就是不加载!");
+            }
+        });
+    }
+
     private void initMyView() {
         getIntentData();
-
 
         presenter = new ConferencePresenterImpl(this, this);
         manager = new LinearLayoutManager(this);
@@ -217,7 +232,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     private void setEmptyRecyclerView() {
         listData = new ArrayList<>();
         adapter = new ConferenceListRecylerAdapter(this, listData);
-        //        adapter.setEmptyView();
+        adapter.setEmptyView(notDataView);
 
     }
 
@@ -293,6 +308,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
 
     @Override
     public void onListSuccess(String code, String msg, Object obj) {
+        MLog.e("onListSuccess");
         loadingDialog.dismiss();
         if (code.contains("1")) {
             bean = (ConferencePersonBean) obj;
@@ -306,10 +322,9 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     @Override
     public void onListFailed(String code, String msg, Exception e) {
         loadingDialog.dismiss();
+        MLog.e("onListFailed");
         ToastUtil.ToastShort(this, msg);
-        if (code.contains("0")) {
-            setEmptyRecyclerView();
-        }
+        setEmptyRecyclerView();
     }
 
     @Override

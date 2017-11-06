@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/black"
+              android:gravity="center"
+              android:orientation="vertical"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/empty"/>
+
+    <TextView
+        android:layout_marginTop="28dp"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:text="没有加载到数据！！"
+        android:textColor="#cacaca"/>
+</LinearLayout>

@@ -136,10 +136,10 @@ public class ConferenceModleImpl {
 
                         //处理返回结果
                         if (bean.getCode().contains("1")) {
-
+                            MLog.d(bean.getCode(), bean.getMessage());
                             listener.onListSuccess(bean.getCode(), bean.getMessage(), bean.getResult());
                         } else {
-                            MLog.e("返回数据错误：", bean.getMessage());
+                            MLog.d(bean.getCode(), bean.getMessage());
                             listener.onListFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }
@@ -178,7 +178,7 @@ public class ConferenceModleImpl {
 
                             listener.onMoreSuccess(bean.getCode(), bean.getMessage(), bean.getResult().getObj());
                         } else {
-                            MLog.e("返回数据错误：", bean.getMessage());
+                            MLog.e(bean.getCode(), bean.getMessage());
                             listener.onMoreFailed(bean.getCode(), bean.getMessage(), new Exception(bean.getMessage()));
                         }
                     }

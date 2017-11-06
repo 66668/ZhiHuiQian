@@ -12,6 +12,7 @@ import com.zhq.base.adapterbase.BaseQuickAdapter;
 import com.zhq.base.adapterbase.BaseViewHolder;
 import com.zhq.bean.ConferencePersonBean;
 import com.zhq.utils.GlideCircleTransform;
+import com.zhq.utils.MLog;
 
 import java.util.List;
 
@@ -44,25 +45,33 @@ public class ConferenceListRecylerAdapter extends BaseQuickAdapter<ConferencePer
                 .into(img);
         //签到
         TextView tv_time = holder.getView(R.id.person_time);
-
-        if (bean.getIsSign().contains("0")) {
-            tv_time.setText("未签到");
+        if (bean.getIsSign() != null || !bean.getIsSign().isEmpty()) {
+            if (bean.getIsSign().contains("0")) {
+                MLog.d("未签到");
+                tv_time.setText("未签到");
+            } else if (bean.getIsSign().contains("1")) {
+                MLog.d("签到时间");
+                tv_time.setText("签到时间：" + bean.getSignTime());
+            } else {
+                tv_time.setText("未签到");
+            }
         } else {
-            tv_time.setText("签到时间：" + bean.getCreateTime());
+            MLog.d("未签到null");
+            tv_time.setText("未签到");
         }
+
 
         //关注
         CheckBox img_care = holder.getView(R.id.img_care);
         if (bean.getIsCare() == 0) {
             img_care.setChecked(false);
-//            ContextCompat.getDrawable(mContext, R.mipmap.detail_unchoose);
+            //            ContextCompat.getDrawable(mContext, R.mipmap.detail_unchoose);
         } else {
             img_care.setChecked(true);
-//            ContextCompat.getDrawable(mContext, R.mipmap.detail_choose);
+            //            ContextCompat.getDrawable(mContext, R.mipmap.detail_choose);
         }
 
         holder.setText(R.id.person_name, bean.getEmployeeName())//用户名
-                .setText(R.id.person_time, "签到时间：" + bean.getCreateTime())
                 .addOnClickListener(R.id.img_care);
 
 
