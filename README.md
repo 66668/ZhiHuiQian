@@ -1,4 +1,4 @@
 效果图
 ====
-![image](https://github.com/66668/Yilaole/tree/master/pic/toolbar_style.png) 
 
+<img width="450" height="720" src="https://github.com/66668/ZhiHuiQian/tree/master/gif/zhihuiqian.gif"></img>
