@@ -132,6 +132,11 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
     }
 
     private void getIntentData() {
+        if (getIntent().getExtras() == null) {
+            conferenceID = "";
+            conferenceName = "";
+            return;
+        }
         conferenceID = getIntent().getExtras().getString("id", "");
         conferenceName = getIntent().getExtras().getString("title", "");
         detail_title.setText(conferenceName);

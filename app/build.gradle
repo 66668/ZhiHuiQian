@@ -18,6 +18,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+
+    }
+
+    defaultConfig {
+        applicationId "com.zhq"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'x86','armeabi - v7a','x86_64', 'arm64 - v8a'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "03bf408ecf3b8c54c291455f", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+
+    }
+    sourceSets.main {
+        jniLibs.srcDirs = ['libs']  // <-- so文件和libs库需要添加这个配置，我由于没加，初始化失败
+    }
 }
 
 dependencies {
@@ -57,6 +84,8 @@ dependencies {
     //recyclerview
     compile 'com.android.support:recyclerview-v7:26.+'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //极光依赖
     implementation files('libs/jcore-android-1.1.7.jar')
     implementation files('libs/jpush-android-3.0.9.jar')
 }
