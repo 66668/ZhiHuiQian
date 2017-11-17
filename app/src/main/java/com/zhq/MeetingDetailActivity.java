@@ -181,7 +181,7 @@ public class MeetingDetailActivity extends BaseActivity implements OnConferenceL
         recyclerView.setAdapter(adapter);
         //
         detail_title.setText(bean.getConferenceName());
-        tv_location.setText(bean.getLocation() + "人");
+        tv_location.setText(bean.getLocation() + "");
         totolNum.setText(bean.getEmpCount() + "人");
         tv_signed.setText(bean.getSignCount() + "人");
         tv_unsigned.setText(bean.getNosignCount() + "人");
